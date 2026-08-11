@@ -1,0 +1,8 @@
+{
+  "registry_version": "0.1",
+  "tools": [
+    {"id": "fastp", "definition": "definitions/fastp.yaml"},
+    {"id": "megahit", "definition": "definitions/megahit.yaml"},
+    {"id": "diamond", "definition": "definitions/diamond.yaml"}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "fastp",
+  "name": "fastp",
+  "version": "registry-supported 0.23.x–0.24.x; not installed or locally tested",
+  "description": "FASTQ preprocessing tool for quality filtering, adapter trimming, and quality-control reporting.",
+  "domain": "genomics",
+  "category": "quality_control",
+  "inputs": [
+    {"id": "reads", "required": true, "type": "sequencing_reads", "format": ["FASTQ"], "biological_meaning": "Single-end or paired-end raw sequencing reads.", "description": "One FASTQ input for single-end data or a read-pair input for paired-end data."},
+    {"id": "adapter_sequences", "required": false, "type": "adapter_specification", "format": ["text"], "biological_meaning": "Known sequencing adapter sequences.", "description": "Optional adapter sequence information when automatic detection is not appropriate."}
+  ],
+  "outputs": [
+    {"id": "clean_reads", "required": true, "type": "sequencing_reads", "format": ["FASTQ"], "biological_meaning": "Quality-controlled sequencing reads.", "description": "Filtered and optionally trimmed reads, preserving single-end or paired-end structure."},
+    {"id": "qc_json_report", "required": true, "type": "quality_control_report", "format": ["JSON"], "biological_meaning": "Read-level quality-control summary.", "description": "Machine-readable preprocessing and quality metrics."},
+    {"id": "qc_html_report", "required": false, "type": "quality_control_report", "format": ["HTML"], "biological_meaning": "Human-readable quality-control summary.", "description": "Optional visual report of preprocessing and quality metrics."}
+  ],
+  "parameters": [
+    {"id": "quality_threshold", "type": "integer", "description": "Phred quality threshold used for quality-based filtering.", "required": false, "default": "tool_default"},
+    {"id": "minimum_length", "type": "integer", "description": "Minimum read length retained after preprocessing.", "required": false, "default": "tool_default"},
+    {"id": "adapter_handling", "type": "string", "description": "Adapter detection or explicit adapter-trimming strategy.", "required": false, "default": "tool_default"},
+    {"id": "paired_end_mode", "type": "boolean", "description": "Whether the input is processed as paired-end reads.", "required": false, "default": false}
+  ],
+  "resources": {"cpu": "configurable", "memory": "low to moderate; data-dependent", "disk": "moderate; intermediate and report storage are data-dependent", "gpu_required": false},
+  "execution": {"local": {"compatible": true, "status": "unvalidated"}, "container": {"compatible": true, "status": "unvalidated"}, "colab": {"compatible": true, "status": "unvalidated"}, "cloud": {"compatible": true, "status": "unvalidated"}},
+  "container": {"supported": true, "image": null, "registry": null},
+  "documentation": {"official": true, "url": "https://github.com/OpenGene/fastp"},
+  "limitations": ["Performs read preprocessing and quality reporting; it does not provide biological interpretation.", "Quality thresholds and trimming choices can affect downstream analyses and require study-appropriate review."]
+}

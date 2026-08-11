@@ -1,0 +1,29 @@
+{
+  "id": "diamond",
+  "name": "DIAMOND",
+  "version": "registry-supported 2.1.x; not installed or locally tested",
+  "description": "High-speed sequence alignment software for protein and translated DNA similarity searches against DIAMOND-formatted databases.",
+  "domain": "sequence_analysis",
+  "category": "sequence_alignment",
+  "inputs": [
+    {"id": "query_sequences", "required": true, "type": "biological_sequences", "format": ["FASTA"], "biological_meaning": "Protein sequences or nucleotide sequences translated by a selected search mode.", "description": "Query sequences for protein alignment or translated search, depending on mode."},
+    {"id": "reference_database", "required": true, "type": "sequence_database", "format": ["DIAMOND_database"], "biological_meaning": "Reference protein sequence database used for similarity search.", "description": "A DIAMOND-compatible database selected and versioned by a future workflow."},
+    {"id": "taxonomy_mapping", "required": false, "type": "reference_metadata", "format": ["text", "TSV"], "biological_meaning": "Optional mapping from reference accessions to taxonomic metadata.", "description": "Optional database-associated metadata used by selected output modes."}
+  ],
+  "outputs": [
+    {"id": "alignment_results", "required": true, "type": "sequence_alignments", "format": ["DAA", "TSV"], "biological_meaning": "Similarity-search alignments between query and reference sequences.", "description": "Primary alignment/search result in a selected DIAMOND output representation."},
+    {"id": "tabular_annotations", "required": false, "type": "annotation_candidates", "format": ["TSV"], "biological_meaning": "Reference-derived candidate annotations associated with sequence matches.", "description": "Tabular match fields suitable for downstream annotation review."}
+  ],
+  "parameters": [
+    {"id": "search_mode", "type": "string", "description": "DIAMOND command mode, such as blastp or blastx, defining query interpretation.", "required": true, "default": null},
+    {"id": "database", "type": "string", "description": "Identifier or path of the DIAMOND-compatible reference database.", "required": true, "default": null},
+    {"id": "evalue", "type": "number", "description": "Expectation-value threshold for reported matches.", "required": false, "default": "tool_default"},
+    {"id": "sensitivity", "type": "string", "description": "Sensitivity preset balancing search sensitivity and computational cost.", "required": false, "default": "tool_default"},
+    {"id": "output_format", "type": "string", "description": "Selected result representation and fields, such as tabular or DAA output.", "required": false, "default": "tool_default"}
+  ],
+  "resources": {"cpu": "configurable", "memory": "moderate to high; database- and sensitivity-dependent", "disk": "moderate to high; database and result-size dependent", "gpu_required": false},
+  "execution": {"local": {"compatible": true, "status": "unvalidated"}, "container": {"compatible": true, "status": "unvalidated"}, "colab": {"compatible": true, "status": "unvalidated"}, "cloud": {"compatible": true, "status": "unvalidated"}},
+  "container": {"supported": true, "image": null, "registry": null},
+  "documentation": {"official": true, "url": "https://github.com/bbuchfink/diamond"},
+  "limitations": ["Results depend on the reference database, its version and curation, selected search mode, and search parameters.", "Sequence similarity results are candidate evidence for downstream scientific review, not standalone biological, clinical, or diagnostic conclusions."]
+}

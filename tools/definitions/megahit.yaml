@@ -1,0 +1,27 @@
+{
+  "id": "megahit",
+  "name": "MEGAHIT",
+  "version": "registry-supported 1.2.x; not installed or locally tested",
+  "description": "De novo assembler designed for large and complex metagenomic sequencing datasets using succinct de Bruijn graphs.",
+  "domain": "metagenomics",
+  "category": "assembly",
+  "inputs": [
+    {"id": "reads", "required": true, "type": "sequencing_reads", "format": ["FASTQ"], "biological_meaning": "Single-end or paired-end sequencing reads for de novo assembly.", "description": "Raw or quality-controlled reads supplied as single-end, paired-end, or interleaved FASTQ data."},
+    {"id": "additional_reads", "required": false, "type": "sequencing_reads", "format": ["FASTQ"], "biological_meaning": "Additional sequencing reads contributing to assembly coverage.", "description": "Optional read sets such as unpaired reads, according to the selected assembly configuration."}
+  ],
+  "outputs": [
+    {"id": "contigs", "required": true, "type": "assembled_sequences", "format": ["FASTA"], "biological_meaning": "Assembled contiguous nucleotide sequences.", "description": "Contigs generated from the provided sequencing reads."},
+    {"id": "assembly_statistics", "required": true, "type": "assembly_report", "format": ["text"], "biological_meaning": "Descriptive assembly summary metrics.", "description": "Tool-generated assembly statistics for review, not biological validation."}
+  ],
+  "parameters": [
+    {"id": "kmer_configuration", "type": "string_or_list", "description": "K-mer list or k-mer range used during assembly.", "required": false, "default": "tool_default"},
+    {"id": "minimum_contig_length", "type": "integer", "description": "Minimum contig length included in output.", "required": false, "default": "tool_default"},
+    {"id": "memory_mode", "type": "string", "description": "Memory-related assembly configuration, such as a preset or explicit limit.", "required": false, "default": "tool_default"},
+    {"id": "threads", "type": "integer", "description": "Maximum CPU threads available to the assembler.", "required": false, "default": "configurable"}
+  ],
+  "resources": {"cpu": "configurable", "memory": "moderate to high; strongly data- and configuration-dependent", "disk": "moderate to high; data- and intermediate-dependent", "gpu_required": false},
+  "execution": {"local": {"compatible": true, "status": "unvalidated"}, "container": {"compatible": true, "status": "unvalidated"}, "colab": {"compatible": true, "status": "unvalidated"}, "cloud": {"compatible": true, "status": "unvalidated"}},
+  "container": {"supported": true, "image": null, "registry": null},
+  "documentation": {"official": true, "url": "https://github.com/voutcn/megahit"},
+  "limitations": ["Assembly quality depends strongly on sequencing quality, coverage, community complexity, and parameter choices.", "Contigs and assembly statistics are computational outputs and do not by themselves establish biological or clinical conclusions."]
+}
