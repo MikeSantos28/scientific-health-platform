@@ -24,6 +24,10 @@ A arquitetura é *cloud-first*: cargas de grande porte poderão seguir para Cola
 
 ## Status
 
-**Fase 0 — Architecture:** fundação documental e estrutural. Não há código funcional, frontend, banco de dados, agentes, ferramentas bioinformáticas nem processamento científico nesta fase.
+**Fase 0 — Architecture — concluída:** fundação documental e estrutural, concluída no commit `37e46e1`.
+
+**Fase 1 — Tool Registry — concluída:** catálogo declarativo de ferramentas científicas, concluído no commit `a4b9990` e publicado na branch `main`. A fase adicionou o índice de ferramentas, schema, definições para Fastp, MEGAHIT e DIAMOND, validação leve e 10 testes. Nenhuma ferramenta científica foi executada, nenhuma dependência científica foi instalada e nenhum processamento científico foi realizado.
+
+**Fase 2 — Dataset Registry — planejada:** próxima etapa para identidade, metadados e linhagem de datasets.
 
 Consulte a [arquitetura do sistema](docs/architecture/system.md), a [metodologia científica](docs/scientific/methodology.md) e o [roadmap](docs/development/roadmap.md).
