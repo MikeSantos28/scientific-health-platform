@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scientific Health Platform Dataset Schema v0.1",
+  "description": "Structural contract for a logical scientific Dataset and its physical Representations. This schema does not model workflows, tools, executions, or scientific results.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["identity", "type", "format", "representations", "lifecycle"],
+  "properties": {
+    "identity": {"$ref": "#/$defs/identity"},
+    "type": {"type": "string", "minLength": 1, "description": "Extensible scientific dataset category; not a universal closed taxonomy."},
+    "format": {"type": "string", "minLength": 1, "description": "Logical data format, distinct from physical compression."},
+    "metadata": {"$ref": "#/$defs/metadata"},
+    "representations": {
+      "type": "array",
+      "description": "Physical manifestations of this logical Dataset. It may be empty while lifecycle.status is registered.",
+      "items": {"$ref": "#/$defs/representation"}
+    },
+    "provenance": {"$ref": "#/$defs/provenance"},
+    "lifecycle": {"$ref": "#/$defs/lifecycle"}
+  },
+  "$defs": {
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": {"$ref": "#/$defs/nonEmptyString", "description": "Stable Dataset identifier."},
+        "name": {"$ref": "#/$defs/nonEmptyString", "description": "Human-readable Dataset name."},
+        "version": {"$ref": "#/$defs/nonEmptyString", "description": "Optional logical Dataset version."}
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {"$ref": "#/$defs/nonEmptyString"},
+        "organism": {"$ref": "#/$defs/organism"},
+        "sample_id": {"$ref": "#/$defs/nonEmptyString"},
+        "study_id": {"$ref": "#/$defs/nonEmptyString"},
+        "attributes": {
+          "type": "object",
+          "description": "Extensible domain-specific metadata. Credentials, tokens, passwords, and API keys are outside this contract.",
+          "additionalProperties": true
+        }
+      }
+    },
+    "organism": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scientific_name": {"$ref": "#/$defs/nonEmptyString"},
+        "taxonomy_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "representation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "location"],
+      "properties": {
+        "id": {"$ref": "#/$defs/nonEmptyString", "description": "Identifier unique within its Dataset; cross-item uniqueness requires semantic validation."},
+        "role": {"$ref": "#/$defs/nonEmptyString", "description": "Extensible role of this Representation; not a closed taxonomy."},
+        "location": {"$ref": "#/$defs/location"},
+        "integrity": {"$ref": "#/$defs/integrity"}
+      }
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "uri"],
+      "properties": {
+        "kind": {"$ref": "#/$defs/nonEmptyString", "description": "Extensible physical location kind; not a closed taxonomy."},
+        "uri": {"type": "string", "minLength": 1, "description": "Physical location URI. It must not contain credentials or secrets."}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {"$ref": "#/$defs/nonEmptyString", "description": "Checksum algorithm; SHA-256 is recommended but not required."},
+        "checksum": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin": {"$ref": "#/$defs/origin"},
+        "parents": {
+          "type": "array",
+          "description": "Logical parent Dataset IDs, never physical file paths or Representation URIs.",
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        }
+      }
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {"$ref": "#/$defs/nonEmptyString"},
+        "identifier": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["registered", "available", "archived", "deprecated"]}
+      }
+    }
+  }
+}
