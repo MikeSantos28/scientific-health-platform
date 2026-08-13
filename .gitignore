@@ -30,6 +30,18 @@ Desktop.ini
 
 # Scientific datasets and large sequence files
 datasets/
+# Dataset Registry metadata is declarative and versionable; biological data
+# remains ignored by default.
+!datasets/
+datasets/*
+!datasets/__init__.py
+!datasets/registry.py
+!datasets/registry.yaml
+!datasets/README.md
+!datasets/definitions/
+datasets/definitions/*
+!datasets/definitions/.gitkeep
+!datasets/definitions/*.yaml
 data/
 *.fastq
 *.fastq.gz
